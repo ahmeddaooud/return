@@ -13,4 +13,5 @@ def home():
     return app.send_static_file('index.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Use the $PORT env variable, default to 5000 for local dev
+    app.run(debug=True, host='0.0.0.0', port=port)  # Bind to 0.0.0.0 to make the app accessible
