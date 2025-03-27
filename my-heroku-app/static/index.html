@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>JsonToFormDataConverter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+    function postFormData() {
+        //creating new form-data
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = document.getElementById("fort_url").value;
+        //get json object after parsing input request value
+        var parameters = JSON.parse(document.getElementById("request").value);
+        //get inputs from parameters object
+        getInputs(parameters, form);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function getInputs(parameters, form) {
+        for (const key in parameters) {
+           if (parameters.hasOwnProperty(key)) {
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = key;
+            //check if value is type of object
+            if (typeof parameters[key] == 'object') {
+                hiddenField.value = JSON.stringify(parameters[key]);
+            } else {
+                hiddenField.value = parameters[key];
+            }
+            //add input item into form data
+            form.appendChild(hiddenField);
+          } 
+        }
+    }
+    </script>
+</head>
+
+<body><p style="font-size:40px; text-align: center;"> JSON to Form-Data Converter </p>
+<p style="font-size:20px; text-align: center;"> APS Fort Merchant checkout & Redirection </p> <br>
+<hr>
+    <table>
+        <th>Input Data</th>
+        <th>Value</th>
+        <tr>
+            <td><b>Fort URL</b></td>
+            <td><textarea id="fort_url" name="fort_url" rows="1" cols="100" spellcheck="false"> </textarea></td>
+        </tr>
+        <tr>
+            <td><b>JSON Request</b></td>
+            <td><textarea id="request" name="request" rows="30" cols="100" spellcheck="false" style="background-color:#e3f5df;"> </textarea></td>
+        </tr>
+        <tr align="center">
+            <td colspan="2">
+                <button id="pay_now" onclick="postFormData();">Send Now</button>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
